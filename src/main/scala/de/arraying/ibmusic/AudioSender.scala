@@ -19,7 +19,7 @@ import net.dv8tion.jda.core.audio.AudioSendHandler
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-final class IBConverter(private val audioPlayer: AudioPlayer) extends AudioSendHandler {
+final class AudioSender(private val audioPlayer: AudioPlayer) extends AudioSendHandler {
 
   private var lastFrame: AudioFrame = _
 
