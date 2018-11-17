@@ -5,7 +5,7 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
 import net.dv8tion.jda.core.entities.VoiceChannel
 import net.dv8tion.jda.core.JDABuilder
 
-import scala.util.{Failure, Try}
+import scala.util.{Failure, Properties, Try}
 
 /**
   * Copyright 2018 Arraying
@@ -24,12 +24,14 @@ import scala.util.{Failure, Try}
   */
 object Music extends App {
 
-  if(args.length < 3) throw new IllegalArgumentException("provide token, channel, link in said order as runtime parameters")
+  val token = Properties.envOrElse("token", "")
+  val channel = Properties.envOrElse("channel", "")
+  val link = Properties.envOrElse("link", "")
   Try {
-    val bot = new JDABuilder(args(0))
+    val bot = new JDABuilder(token)
       .build()
       .awaitReady()
-    bot.getVoiceChannelById(args(1)) match {
+    bot.getVoiceChannelById(channel) match {
       case channel: VoiceChannel =>
         val playerManager: AudioPlayerManager = new DefaultAudioPlayerManager
         AudioSourceManagers.registerRemoteSources(playerManager)
@@ -38,7 +40,7 @@ object Music extends App {
         val manager = channel.getGuild.getAudioManager
         manager.setSendingHandler(new AudioSender(player))
         manager.openAudioConnection(channel)
-        playerManager.loadItemOrdered(player, args(2), new ResultHandler(player))
+        playerManager.loadItemOrdered(player, link, new ResultHandler(player))
       case null => throw new IllegalArgumentException("channel invalid")
     }
   } match {
