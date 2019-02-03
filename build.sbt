@@ -3,7 +3,7 @@ scalaVersion := "2.12.6"
 lazy val ibMusic = (project in file("."))
   .settings(
     name := "ibmusic",
-    version := "0.2",
+    version := "0.2.1",
     exportJars := true,
     resolvers += Resolver.JCenterRepository,
     libraryDependencies ++= Seq(

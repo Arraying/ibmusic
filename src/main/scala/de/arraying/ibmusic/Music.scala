@@ -44,7 +44,9 @@ object Music extends App {
       case null => throw new IllegalArgumentException("channel invalid")
     }
   } match {
-    case Failure(error) => error.printStackTrace()
+    case Failure(error) =>
+      error.printStackTrace()
+      System.exit(1)
     case _ =>
   }
 
